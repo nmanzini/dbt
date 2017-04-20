@@ -1,0 +1,15 @@
+import ctypes
+import os
+import bs4
+import urllib.request
+
+
+def set_image(image_path):
+    SPI_SETDESKWALLPAPER = 0x14
+    SPIF_UPDATEINIFILE = 0x2
+    ctypes.windll.user32.SystemParametersInfoW(SPI_SETDESKWALLPAPER, 0, image_path, SPIF_UPDATEINIFILE)
+
+
+def check_folder(directory):
+    if not os.path.exists(directory):
+        os.makedirs(directory)
