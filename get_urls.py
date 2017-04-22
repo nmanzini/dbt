@@ -4,7 +4,7 @@ import urllib.request
 # add a test to see if the subreddit works
 
 
-def reddit_pics(subreddits):
+def reddit_pics(subreddits, pages):
     """
     from a subreddit name returns a list of urls of image already filtered
     :param subreddit: r/subreddit name 
@@ -12,31 +12,39 @@ def reddit_pics(subreddits):
     :return: urls of images
     :rtype: list of strings
     """
+	
     combined_url = "https://www.reddit.com/r/" + subreddits[0]
     for subreddit in subreddits[1:]:
         combined_url += "+" + subreddit
 		
-    urls = get_subreddit_urls(combined_url)
+    urls = get_subreddit_urls(combined_url, pages)
     pic_urls = filter_urls(urls)
     return pic_urls
 	
 
-def get_subreddit_urls(subreddit_url):
+def get_subreddit_urls(subreddit_url, pages):
     """
-    Gets all the urls from the first page of a subreddit
+    Gets all the picture urls from a given # of pages
     :return: raw urls to be filtered
     :rtype: set
     """
-    soup = get_soup(subreddit_url)
+
     urls = set()
     errors = 0
-    for div in soup.find_all("div", {'data-type': 'link'}):
-        try:  # probably not necessary anymore
-            url = div.get('data-url', '')
+    current_page = subreddit_url
+    soup = get_soup(current_page)
+    for i in range(pages):
+        if i > 0:
+            current_page = subreddit_url + "/?count=" + str(i*25) + "&after=" + prev_id
+            soup = get_soup(current_page)
+        print("getting urls from", current_page)
+        
+        links = soup.find_all("div", {'data-type': 'link'})
+        for link in links:
+            url = link.get('data-url', '')
             urls.add(url)
-        except KeyError:
-            errors += 1
-            continue
+        prev_id = links[-1]["data-fullname"]
+        
     print('added', len(urls), 'pic urls to the url-list.', errors, 'errors.')
     return urls
 
