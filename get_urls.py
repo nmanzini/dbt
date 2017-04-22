@@ -1,8 +1,6 @@
 import bs4 as bs
 import urllib.request
 
-# add a test to see if the subreddit works
-
 
 def reddit_pics(subreddits, pages):
     """
@@ -12,15 +10,31 @@ def reddit_pics(subreddits, pages):
     :return: urls of images
     :rtype: list of strings
     """
+    test_existance(subreddits)
 	
     combined_url = "https://www.reddit.com/r/" + subreddits[0]
     for subreddit in subreddits[1:]:
         combined_url += "+" + subreddit
-		
+    	
     urls = get_subreddit_urls(combined_url, pages)
     pic_urls = filter_urls(urls)
     return pic_urls
 	
+def test_existance(subreddits):
+    ''' 
+    Tests if given subreddit exists
+    raises exception if they don't exist
+    '''
+    for subreddit in subreddits:
+        url = "https://www.reddit.com/r/" + subreddit
+        try:
+            soup = get_soup(url)
+        except urllib.error.HTTPError:
+            raise Exception("/r/" + subreddit + " doesn't exist")
+	
+        num_links = len(soup.find_all("div", {'data-type': 'link'}))
+        if num_links < 1:
+            raise Exception("/r/" + subreddit + " has no links")
 
 def get_subreddit_urls(subreddit_url, pages):
     """
