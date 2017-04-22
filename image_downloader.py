@@ -1,6 +1,7 @@
 import os
 import urllib.request
 
+
 def check_folder(directory):
     """
     Makes sure folder exists and creates it if it doesn't
@@ -15,7 +16,7 @@ def check_folder(directory):
     else:
         print("pictures folder already exists")
 
-	
+
 def download_pics(pic_urls, directory):
     """
     Pictures are placed in current directory/pictures/
@@ -29,6 +30,7 @@ def download_pics(pic_urls, directory):
     print("downloading pictures...")
     for url in pic_urls:
         name = url.split("/")[-1]
+        print('from:', url)
         pic_path = directory + name
         if not os.path.exists(pic_path):
             print("downloading ->", pic_path)
