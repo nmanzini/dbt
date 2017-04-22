@@ -1,14 +1,33 @@
 import bs4 as bs
 import urllib.request
 
+# add a test to see if the subreddit works
 
-def get_subreddit_urls(subreddit):
+
+def reddit_pics(subreddits):
+    """
+    from a subreddit name returns a list of urls of image already filtered
+    :param subreddit: r/subreddit name 
+    :type subreddit: string
+    :return: urls of images
+    :rtype: list of strings
+    """
+    combined_url = "https://www.reddit.com/r/" + subreddits[0]
+    for subreddit in subreddits[1:]:
+        combined_url += "+" + subreddit
+		
+    urls = get_subreddit_urls(combined_url)
+    pic_urls = filter_urls(urls)
+    return pic_urls
+	
+
+def get_subreddit_urls(subreddit_url):
     """
     Gets all the urls from the first page of a subreddit
     :return: raw urls to be filtered
     :rtype: set
     """
-    soup = get_soup("http://www.reddit.com" + subreddit)
+    soup = get_soup(subreddit_url)
     urls = set()
     errors = 0
     for div in soup.find_all("div", {'data-type': 'link'}):
@@ -73,16 +92,3 @@ def get_soup(url):
     source = urllib.request.urlopen(req)
     soup = bs.BeautifulSoup(source, 'lxml')
     return soup
-
-
-def reddit_pics(subreddit):
-    """
-    from a subreddit name returns a list of urls of image already filtered
-    :param subreddit: r/subreddit name 
-    :type subreddit: string
-    :return: urls of images
-    :rtype: list of strings
-    """
-    urls = get_subreddit_urls(subreddit)
-    pic_urls = filter_urls(urls)
-    return pic_urls
