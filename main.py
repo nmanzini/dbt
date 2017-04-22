@@ -2,6 +2,8 @@ import os
 
 import get_urls
 import image_downloader
+#import schedule
+import time
 import set_image
 
 # subreddit to pull pictures from
@@ -20,7 +22,27 @@ def main(subreddit):
     pic_urls = get_urls.reddit_pics(subreddit)
     image_downloader.check_folder(FOLDER_PATH)
     image_downloader.download_pics(pic_urls, FOLDER_PATH)
-    # set_image.set_image(FOLDER_PATH + "2cL5jGL.jpg")
+
+    images = [file for file in os.listdir(FOLDER_PATH)]
+
+    #schedule.every(10).seconds.do(set_back, images)
+    while len(images) > 0:
+        #schedule.run_pending()
+        set_back(images)
+        time.sleep(10)
+
+
+def set_back(images_list):
+    image = images_list.pop()
+    set_image.set_image(FOLDER_PATH+image)
 
 
 main(SUBREDDIT)
+
+
+
+
+
+
+
+# main(SUBREDDIT)
