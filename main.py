@@ -6,14 +6,16 @@ import time
 import set_image
 
 # subreddit to pull pictures from
-SUBREDDITS = ["wallpapers", "EarthPorn", "WQHD_Wallpaper"]
+SUBREDDITS = ["puppies"]
 
 # pictures folder path in current working directory (cwd)
 FOLDER_PATH = os.getcwd() + "\\pictures\\"
 
 # number of pages to go through (up to 25 pictures per page)
-PAGES = 3
+PAGES = 1
 
+# determines method of sorting
+SORTING = "top"
 
 def main():
     """
@@ -21,7 +23,7 @@ def main():
     Downloads the pictures
     Sets Desktop Background
     """
-    pic_urls = get_urls.reddit_pics(SUBREDDITS, PAGES)
+    pic_urls = get_urls.reddit_pics(SUBREDDITS, PAGES, SORTING)
     image_downloader.check_folder(FOLDER_PATH)
     image_downloader.download_pics(pic_urls, FOLDER_PATH)
 
