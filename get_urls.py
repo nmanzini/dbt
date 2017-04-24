@@ -2,20 +2,35 @@ import bs4 as bs
 import urllib.request
 
 
-def reddit_pics(subreddits, pages):
+def reddit_pics(subreddits, pages, sorting):
     """
-    from a subreddit name returns a list of urls of image already filtered
-    :param subreddit: r/subreddit name 
-    :type subreddit: string
+    from a list of subreddits name returns a list of urls of image already filtered
+    :param subreddits: r/subreddit name 
+    :type subreddits: string
+    :param pages: num of pages to search through
+    :type pages: int
+    :param sorting: method of sorting ex: hot, top, new
+    :type sorting: string
     :return: urls of images
     :rtype: list of strings
     """
     test_existance(subreddits)
-	
+    
+    # combine subreddits into one url containing links from all of them
     combined_url = "https://www.reddit.com/r/" + subreddits[0]
     for subreddit in subreddits[1:]:
         combined_url += "+" + subreddit
-    	
+    
+    # validate sorting and add it to the end of the url
+    sorting_choices = ["hot", "new", "rising", "controversial", "top", "gilded", "promoted"]
+    try:
+        assert sorting.lower() in sorting_choices
+    except AssertionError:
+        print("sorting must be in these choices")
+    combined_url += "/" + sorting.lower()
+	
+	# gets new urls from combined url 
+	# and filters them down to only .png and .jpg
     urls = get_subreddit_urls(combined_url, pages)
     pic_urls = filter_urls(urls)
     return pic_urls
@@ -78,8 +93,14 @@ def filter_urls(urls):
     for url in urls:
         if url.endswith(".jpg") or url.endswith(".png"):
             pic_urls.add(url)
+        elif url.endswith(".gif") or url.endswith(".gifv"):
+            bad_urls.add(url)
         elif "imgur" in url:
-            pic_urls.add(get_imgur_pic(url))
+            pic = get_imgur_pic(url)
+            if pic:
+                pic_urls.add(pic)
+            else:
+                bad_urls.add(url)
         else:
             bad_urls.add(url)
             print('rejected', url)

@@ -6,7 +6,7 @@ import time
 import set_image
 
 # subreddit to pull pictures from
-SUBREDDITS = ["puppies"]
+SUBREDDITS = ["wallpapers"]
 
 # pictures folder path in current working directory (cwd)
 FOLDER_PATH = os.getcwd() + "\\pictures\\"
@@ -15,7 +15,7 @@ FOLDER_PATH = os.getcwd() + "\\pictures\\"
 PAGES = 1
 
 # determines method of sorting
-SORTING = "top"
+SORTING = "new"
 
 def main():
     """
