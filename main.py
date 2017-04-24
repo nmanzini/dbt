@@ -15,7 +15,10 @@ FOLDER_PATH = os.getcwd() + "\\pictures\\"
 PAGES = 1
 
 # determines method of sorting
-SORTING = "new"
+SORTING = "top"
+
+# time period for links
+TIME_PERIOD = "all"
 
 def main():
     """
@@ -23,7 +26,7 @@ def main():
     Downloads the pictures
     Sets Desktop Background
     """
-    pic_urls = get_urls.reddit_pics(SUBREDDITS, PAGES, SORTING)
+    pic_urls = get_urls.reddit_pics(SUBREDDITS, PAGES, SORTING, TIME_PERIOD)
     image_downloader.check_folder(FOLDER_PATH)
     image_downloader.download_pics(pic_urls, FOLDER_PATH)
 
