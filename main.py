@@ -12,7 +12,7 @@ SUBREDDITS = ["wallpapers"]
 FOLDER_PATH = os.getcwd() + "\\pictures\\"
 
 # number of pages to go through (up to 25 pictures per page)
-PAGES = 1
+PAGES = 2
 
 # determines method of sorting
 SORTING = "top"

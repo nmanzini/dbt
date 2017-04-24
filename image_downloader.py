@@ -37,6 +37,11 @@ def download_pics(pic_urls, directory):
             try:
                 urllib.request.urlretrieve(url, pic_path)
             except ValueError:
+                # http:// missing from link
                 urllib.request.urlretrieve("http://" + url, pic_path)
+            except urllib.error.HTTPError:
+                # access forbidden
+                # ex: http://puu.sh/n2zPL/2491975ef3.jpg
+                print("URL skipped due to HTTPError", url)
         else:
             print("already downloaded ->", pic_path)

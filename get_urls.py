@@ -89,7 +89,7 @@ def get_subreddit_urls(subreddit_url, pages):
     soup = get_soup(current_page)
     for i in range(pages):
         if i > 0:
-            current_page = subreddit_url + "/?count=" + str(i*25) + "&after=" + prev_id
+            current_page = subreddit_url + "&count=" + str(i*25) + "&after=" + prev_id
             soup = get_soup(current_page)
         print("getting urls from", current_page)
         
