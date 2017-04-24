@@ -30,6 +30,9 @@ def download_pics(pic_urls, directory):
     print("downloading pictures...")
     for url in pic_urls:
         name = url.split("/")[-1]
+        if len(name) >= 20:
+            name = name[len(name)-20:]
+    
         print('from:', url)
         pic_path = directory + name
         if not os.path.exists(pic_path):
@@ -37,7 +40,7 @@ def download_pics(pic_urls, directory):
             try:
                 urllib.request.urlretrieve(url, pic_path)
             except ValueError:
-                # http:// missing from link
+                # 'http://' missing from link
                 urllib.request.urlretrieve("http://" + url, pic_path)
             except urllib.error.HTTPError:
                 # access forbidden

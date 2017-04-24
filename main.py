@@ -6,7 +6,7 @@ import time
 import set_image
 
 # subreddit to pull pictures from
-SUBREDDITS = ["wallpapers"]
+SUBREDDITS = ["EarthPorn"]
 
 # pictures folder path in current working directory (cwd)
 FOLDER_PATH = os.getcwd() + "\\pictures\\"
@@ -33,9 +33,9 @@ def main():
     # list of file in the pictures folder
     images = [file for file in os.listdir(FOLDER_PATH)]
 
-    while len(images) > 0:
-        set_back(images)
-        time.sleep(5)
+    #while len(images) > 0:
+    #    set_back(images)
+    #    time.sleep(5)
 
 
 def set_back(images_list):
@@ -49,6 +49,7 @@ def set_back(images_list):
     image = images_list.pop()
     set_image.set_image(FOLDER_PATH+image)
 
-
 main()
 
+#url = "http://i.imgur.com/HOSg2FC.jpg"
+#urllib.request.urlretrieve(url, FOLDER_PATH+"test.jpg")

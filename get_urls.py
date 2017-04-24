@@ -116,16 +116,29 @@ def filter_urls(urls):
     pic_urls = set()
     bad_urls = set()
     for url in urls:
-        if url.endswith(".jpg") or url.endswith(".png"):
+        if url.endswith(".jpg") or url.endswith(".jpeg") or url.endswith(".png"):
             pic_urls.add(url)
+
+        elif url.endswith(".jpg?1"):
+            pic_urls.add(url[:-2])
+	
         elif url.endswith(".gif") or url.endswith(".gifv"):
             bad_urls.add(url)
-        elif "imgur" in url:
-            pic = get_imgur_pic(url)
+			
+        elif "imgur.com" in url:
+            pic = get_imgur(url)
             if pic:
                 pic_urls.add(pic)
             else:
                 bad_urls.add(url)
+
+        elif "flickr.com" in url:
+            pic = get_flickr(url)
+            pic_urls.add(pic)
+
+        elif "i.reddituploads.com" in url:
+            pic_urls.add(url+".jpg")
+
         else:
             bad_urls.add(url)
             print('rejected', url)
@@ -134,7 +147,7 @@ def filter_urls(urls):
     return pic_urls
 
 
-def get_imgur_pic(imgur_url):
+def get_imgur(imgur_url):
     """
     Goes into the imgur page url and returns the first valid picture
     :param imgur_url: imgur page url
@@ -142,8 +155,40 @@ def get_imgur_pic(imgur_url):
     :return: imgur image url
     :rtype: string
     """
-    soup = get_soup(imgur_url)
-    pic_url = 'http:' + soup.find('a', class_='zoom').get('href')
+    print("get imgur pic from: " + imgur_url)
+    
+    try:
+        soup = get_soup(imgur_url)
+    except urllib.error.HTTPError:
+        print("This link has been removed:", imgur_url)
+        return
+
+    zoomed_pic = soup.find("a", class_="zoom")
+    if zoomed_pic:
+        pic_url = "http:" + zoomed_pic.get('href')
+    else:
+        unzoomed_pic = soup.find("img", itemprop="contentURL")
+        pic_url = unzoomed_pic["src"]
+    return pic_url
+
+
+def get_flickr(flickr_url):
+    """
+    Goes into the flickr page url and returns the first valid picture
+    :param flickr_url: imgur page url
+    :type flickr_url: string
+    :return: flickr image url
+    :rtype: string
+    """
+    print("get flickr pic from: " + flickr_url)
+    soup = get_soup(flickr_url)
+    zoomed_pic = soup.find("img", class_="zoom-large")
+
+    if zoomed_pic:
+        pic_url = "http:" + zoomed_pic["src"]
+    else:
+        main_pic = soup.find("img", class_="main-photo")
+        pic_url = "http:" + main_pic["src"]
     return pic_url
 
 
