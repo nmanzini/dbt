@@ -14,7 +14,8 @@ def reddit_pics(subreddits, pages, sorting, time_period):
     :return: urls of images
     :rtype: list of strings
     """
-    test_existance(subreddits)
+    # commented only for testing of gui
+    # test_existance(subreddits)
     combined_url = build_url(subreddits, pages, sorting, time_period)
     
     urls = get_subreddit_urls(combined_url, pages)
@@ -24,8 +25,8 @@ def reddit_pics(subreddits, pages, sorting, time_period):
 def build_url(subreddits, pages, sorting, time_period):
     """
     Builds a complete URL based off of parameters given.
-    :param subreddits: list of subreddit strings
-    :type subreddits: list
+    :param subreddits: string made of subs name divided by +
+    :type subreddits: string 
     :param pages: num of pages to search through
     :type pages: int
     :param sorting: method of sorting (ex: hot, top, new)
@@ -36,10 +37,12 @@ def build_url(subreddits, pages, sorting, time_period):
     :rtype: string
     """
     # combine subreddits into one url containing links from all of them
+    #subreddits = subreddits.split('+')
     combined_url = "https://www.reddit.com/r/" + subreddits[0]
+    '''
     for subreddit in subreddits[1:]:
         combined_url += "+" + subreddit
-    
+    '''
     # validate sorting and add it to the end of the url
     sorting_choices = ("hot", "new", "controversial", "top", "gilded", "promoted")
     try:
