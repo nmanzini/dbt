@@ -1,6 +1,4 @@
-'''
 
-'''
 
 import get_urls
 import image_downloader
@@ -25,6 +23,8 @@ SORTING = "top"
 
 # time period for links
 TIME_PERIOD = "all"
+
+image_downloader.check_folder(FOLDER_PATH)
 
 class Window(QWidget):
     def __init__(self):
@@ -164,6 +164,7 @@ def download(subreddits):
     Downloads the pictures
     """
     pic_urls = get_urls.reddit_pics(subreddits, PAGES, SORTING, TIME_PERIOD)
+    print('pic_urls', pic_urls)
     image_downloader.check_folder(FOLDER_PATH)
     image_downloader.download_pics(pic_urls, FOLDER_PATH)
 
