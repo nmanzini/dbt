@@ -19,8 +19,13 @@ def reddit_pics(subreddits, pages, sorting, time_period):
     combined_url = build_url(subreddits, pages, sorting, time_period)
     
     urls = get_subreddit_urls(combined_url, pages)
+    print()
+
     pic_urls = filter_urls(urls)
+    print()
+
     return pic_urls
+
 
 def build_url(subreddits, pages, sorting, time_period):
     """
@@ -39,10 +44,9 @@ def build_url(subreddits, pages, sorting, time_period):
     # combine subreddits into one url containing links from all of them
     subreddits = subreddits.split('+')
     combined_url = "https://www.reddit.com/r/" + subreddits[0]
-    '''
     for subreddit in subreddits[1:]:
         combined_url += "+" + subreddit
-    '''
+
     # validate sorting and add it to the end of the url
     sorting_choices = ("hot", "new", "controversial", "top", "gilded", "promoted")
     try:
@@ -62,7 +66,8 @@ def build_url(subreddits, pages, sorting, time_period):
     combined_url += "&t=" + time_period
     
     return combined_url
-    
+
+
 def test_existance(subreddits):
     ''' 
     Tests if given subreddit exists
@@ -74,7 +79,7 @@ def test_existance(subreddits):
             soup = get_soup(url)
         except urllib.error.HTTPError:
             raise Exception("/r/" + subreddit + " doesn't exist")
-	
+
         num_links = len(soup.find_all("div", {'data-type': 'link'}))
         if num_links < 1:
             raise Exception("/r/" + subreddit + " has no links")
@@ -85,7 +90,9 @@ def get_subreddit_urls(subreddit_url, pages):
     :return: raw urls to be filtered
     :rtype: set
     """
+    print()
     print(subreddit_url)
+
     urls = set()
     errors = 0
     current_page = subreddit_url
@@ -124,10 +131,10 @@ def filter_urls(urls):
 
         elif url.endswith(".jpg?1"):
             pic_urls.add(url[:-2])
-	
+
         elif url.endswith(".gif") or url.endswith(".gifv"):
             bad_urls.add(url)
-			
+
         elif "imgur.com" in url:
             pic = get_imgur(url)
             if pic:

@@ -13,8 +13,10 @@ def check_folder(directory):
     if not os.path.exists(directory):
         os.makedirs(directory)
         print("making pictures folder")
+        print()
     else:
         print("pictures folder already exists")
+        print()
 
 
 def download_pics(pic_urls, directory):
@@ -48,3 +50,4 @@ def download_pics(pic_urls, directory):
                 print("URL skipped due to HTTPError", url)
         else:
             print("already downloaded ->", pic_path)
+    print("Downloads Finished")

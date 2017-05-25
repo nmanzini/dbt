@@ -51,7 +51,6 @@ class Window(QWidget):
         self.subreddit_input.setToolTip('Write the <b>subreddit</b> you want to download from. Concatenate with a +')
 
         # button action
-
         self.subreddits = self.subreddit_input.text()
         print(self.subreddits)
         self.subreddit_download.clicked.connect(lambda: download(self.subreddits))
@@ -77,14 +76,11 @@ class Window(QWidget):
 
         self.period_set = QPushButton('Set')
 
-
         # control if slider changes value
         self.period_slider.valueChanged.connect(self.v_change)
 
         images_list = [file for file in os.listdir(FOLDER_PATH)]
         self.period_set.clicked.connect(self.set_background, 2)
-
-
 
         # Vertical Layout for the period part
         vl_period = QVBoxLayout()
@@ -164,7 +160,6 @@ def download(subreddits):
     Downloads the pictures
     """
     pic_urls = get_urls.reddit_pics(subreddits, PAGES, SORTING, TIME_PERIOD)
-    print('pic_urls', pic_urls)
     image_downloader.check_folder(FOLDER_PATH)
     image_downloader.download_pics(pic_urls, FOLDER_PATH)
 
