@@ -157,6 +157,7 @@ def download(subreddits):
     Gets reddit pic URLs from input subreddit
     Downloads the pictures
     """
+    print(subreddits)
     pic_urls = get_urls.reddit_pics(subreddits, PAGES, SORTING, TIME_PERIOD)
     image_downloader.check_folder(FOLDER_PATH)
     image_downloader.download_pics(pic_urls, FOLDER_PATH)
