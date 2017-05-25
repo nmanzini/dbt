@@ -24,7 +24,7 @@ SORTING = "top"
 # time period for links
 TIME_PERIOD = "all"
 
-image_downloader.check_folder(FOLDER_PATH)
+
 
 class Window(QWidget):
     def __init__(self):
@@ -77,7 +77,6 @@ class Window(QWidget):
         # control if slider changes value
         self.period_slider.valueChanged.connect(self.v_change)
 
-        images_list = [file for file in os.listdir(FOLDER_PATH)]
         self.period_set.clicked.connect(self.set_background, 2)
 
         # Vertical Layout for the period part
