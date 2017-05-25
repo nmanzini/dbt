@@ -131,6 +131,7 @@ def filter_urls(urls):
 
         elif url.endswith(".jpg?1"):
             pic_urls.add(url[:-2])
+            print(url[:-2])
 
         elif url.endswith(".gif") or url.endswith(".gifv"):
             bad_urls.add(url)
@@ -153,7 +154,8 @@ def filter_urls(urls):
             bad_urls.add(url)
             print('rejected', url)
     print('of original', len(urls), 'images:', len(pic_urls), 'approved,', len(bad_urls), 'rejected:')
-
+    print()
+    print("pic_urls", pic_urls)
     return pic_urls
 
 
@@ -179,6 +181,10 @@ def get_imgur(imgur_url):
     else:
         unzoomed_pic = soup.find("img", itemprop="contentURL")
         pic_url = unzoomed_pic["src"]
+
+    if pic_url.endswith(".jpg?1"):
+        pic_url = pic_url[:-2]
+
     return pic_url
 
 

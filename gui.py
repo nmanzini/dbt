@@ -51,9 +51,7 @@ class Window(QWidget):
         self.subreddit_input.setToolTip('Write the <b>subreddit</b> you want to download from. Concatenate with a +')
 
         # button action
-        self.subreddits = self.subreddit_input.text()
-        print(self.subreddits)
-        self.subreddit_download.clicked.connect(lambda: download(self.subreddits))
+        self.subreddit_download.clicked.connect(lambda: download(self.subreddit_input.text()))
 
         # Vertical Layout for the subreddit part
         vl_subreddit = QVBoxLayout()
