@@ -52,9 +52,9 @@ class Window(QWidget):
 
         # button action
 
-        self.subreddits = self.subreddit_input.text()
-        print(self.subreddits)
-        self.subreddit_download.clicked.connect(lambda: download(self.subreddits))
+
+
+        self.subreddit_download.clicked.connect(lambda: download(self.subreddit_input.text()))
 
         # Vertical Layout for the subreddit part
         vl_subreddit = QVBoxLayout()
@@ -163,6 +163,7 @@ def download(subreddits):
     Gets reddit pic URLs from input subreddit
     Downloads the pictures
     """
+    print(subreddits)
     pic_urls = get_urls.reddit_pics(subreddits, PAGES, SORTING, TIME_PERIOD)
     print('pic_urls', pic_urls)
     image_downloader.check_folder(FOLDER_PATH)
