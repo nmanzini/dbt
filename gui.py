@@ -21,6 +21,7 @@ PAGES = 2
 # determines method of sorting
 SORTING = "top"
 
+
 # time period for links
 TIME_PERIOD = "all"
 
