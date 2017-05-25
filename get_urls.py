@@ -37,7 +37,7 @@ def build_url(subreddits, pages, sorting, time_period):
     :rtype: string
     """
     # combine subreddits into one url containing links from all of them
-    #subreddits = subreddits.split('+')
+    subreddits = subreddits.split('+')
     combined_url = "https://www.reddit.com/r/" + subreddits[0]
     '''
     for subreddit in subreddits[1:]:
